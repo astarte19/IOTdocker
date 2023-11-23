@@ -1,0 +1,51 @@
+services:
+#Головной контроллер
+  main_controller:
+   build: .   
+   restart: on-failure
+   volumes:
+      - .:/main_controller
+   command: python main_controller.py  
+   networks:
+     - iot_network
+
+#Шлюз
+  gateway:
+   build: .  
+   restart: on-failure
+   volumes:
+      - .:/gateway
+   command: python gateway.py
+   networks:
+     - iot_network
+
+#Датчик температуры
+  temp_sensor:
+    build: .
+    volumes:
+      - .:/temperature
+    command: python temperature.py
+    networks:
+     - iot_network
+
+#Датчик влажности в комнате
+  humidity_sensor:
+    build: .
+    volumes:
+      - .:/humidity
+    command: python humidity.py 
+    networks:
+     - iot_network
+
+#Уровень воды в горшке растения
+  plant_sensor:
+    build: .
+    volumes:
+      - .:/plants
+    command: python plants.py
+    networks:
+     - iot_network
+ 
+networks:
+ iot_network:
+   name: iot_network
