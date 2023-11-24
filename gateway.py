@@ -16,18 +16,17 @@ gateway_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 gateway_socket.bind((gateway_host, gateway_port))
 gateway_socket.listen()
 
-print(f'Шлюз запущен на {gateway_host}:{gateway_port}. Ожидание подключения...',flush=True)
+print(f'Шлюз запущен под адресом: {gateway_host}:{gateway_port}. Открыт прием сообщений.',flush=True)
 
 
 while True:
     # Принятие входящего соединения от первого хоста
     client_socket, address = gateway_socket.accept()
-    print(f'Успешное подключение от {address}. Ожидание сообщения...',flush=True)
+    print(f'Открыто подключение с {address}. Ожидание сообщения...',flush=True)
 
     # Получение данных от первого хоста
     data = client_socket.recv(1024)
-    print(f'Получено от {address}: {data.decode()}')
-
+    print(f'Получено сообщние от хоста {address}: Зашифрованный текст: {data}')
     #Создание сокета для подключения ко второму хосту
     destination_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Подключение к второму хосту
